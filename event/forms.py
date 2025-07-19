@@ -51,7 +51,7 @@ class EventCreateForm(StyledFormMixin, forms.ModelForm):
         fields = ['name', 'description', 'date', 'time', 'location', 'category']
         widgets = {
             'date': forms.SelectDateWidget(),
-            'time': forms.TimeInput(),
+            'time': forms.TimeInput(attrs={'type': 'time'}),
             'category': forms.CheckboxSelectMultiple()
         }
 
