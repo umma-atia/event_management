@@ -1,0 +1,37 @@
+{% extends "dashboard/dashboard.html" %}
+{% block title %}Event's Detail{% endblock title %}
+
+{% block events %}
+
+<h2 class="flex justify-center text-xl font-semibold mb-4 text-gray-800">Event Details</h2>
+<div class="bg-white p-4 rounded-xl shadow-md mb-4">
+    <div class="text-gray-800">
+        <p>Name: {{ event.name }}</p>
+        <p>Description: {{ event.description }}</p>
+        <p>Date: {{ event.date }}</p>
+        <p>Time: {{ event.time }}</p>
+        <p>Location: {{ event.location }}</p>
+        <p>Category: {{ event.category.name }}</p>
+        <p>Participants: {{ event.participants.count }}</p>
+    </div>
+   
+   <div class="">
+       <h2 class="flex justify-center text-xl font-semibold mt-4 mb-4 text-gray-800">ALL Participants for this Event:</h2> 
+       <div class="text-gray-800">
+            {% if participants|length > 0 %}
+            <ul>
+                {% for participant in participants %}
+                    <li>
+                        {{ participant.name }} - {{ participant.email }}
+                    </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+                <p>No participants registered for this event.</p>
+            {% endif %}
+       </div>       
+   </div>
+</div>
+
+
+{% endblock events %}
