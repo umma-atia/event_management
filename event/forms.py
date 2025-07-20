@@ -1,5 +1,5 @@
 from django import forms
-from .models import Event, Category
+from .models import Event, Category, Participant
 
 class StyledFormMixin:
     """ Mixing to apply style to form field"""
@@ -34,11 +34,18 @@ class StyledFormMixin:
 
                 })
 
+            elif isinstance(field.widget, forms.Select):
+                print("Inside category")
+                field.widget.attrs.update({
+                    'class': "space-y-2"
+                })
+
             elif isinstance(field.widget, forms.CheckboxSelectMultiple):
                 print("Inside category")
                 field.widget.attrs.update({
                     'class': "space-y-2"
                 })
+
             else:
                 print("Inside else")
                 field.widget.attrs.update({
@@ -52,9 +59,31 @@ class EventCreateForm(StyledFormMixin, forms.ModelForm):
         widgets = {
             'date': forms.SelectDateWidget(),
             'time': forms.TimeInput(attrs={'type': 'time'}),
-            'category': forms.CheckboxSelectMultiple()
+            'category': forms.Select()
         }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.apply_styled_widgets()
+
+class CategoryForm(StyledFormMixin, forms.ModelForm):
+    class Meta:
+        model = Category
+        fields = ['name', 'description']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.apply_styled_widgets()
+
+class ParticipantForm(StyledFormMixin, forms.ModelForm):
+    class Meta:
+        model = Participant
+        fields = ['name', 'email', 'events']
+
+        widgets = {
+            'events': forms.CheckboxSelectMultiple
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.apply_styled_widgets()        

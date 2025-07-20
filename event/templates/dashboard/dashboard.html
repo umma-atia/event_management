@@ -22,10 +22,11 @@
         <!-- Navbar -->
     <nav class="flex justify-between items-center mb-8">
             <div class="flex space-x-4">
-                <a href="#" class="text-gray-700 hover:text-blue-600 font-semibold">Home</a>
-                <a href="#" class="text-gray-700 hover:text-blue-600 font-semibold">Category</a>
+                <a href="{% url "manager_dashboard" %}" class="text-gray-700 hover:text-blue-600 font-semibold">Home</a>
+                <a href="{% url 'event-list' %}" class="text-gray-700 hover:text-blue-600 font-semibold">Events</a>
+                <a href="{% url 'category-list' %}" class="text-gray-700 hover:text-blue-600 font-semibold">Categories</a>
+                <a href="{% url 'participant-list' %}" class="text-gray-700 hover:text-blue-600 font-semibold">Participants</a>
                 <a href="#" class="text-gray-700 hover:text-blue-600 font-semibold">Blogs</a>
-                <a href="#" class="text-gray-700 hover:text-blue-600 font-semibold">Dashboard</a>
                 <a href="#" class="text-gray-700 hover:text-blue-600 font-semibold">Contact</a>
             </div>
     
@@ -38,14 +39,14 @@
     </nav>     
         <!-- Header    -->
     <header class="flex justify-center items-center mb-8">
-        <h2 class="text-2xl font-semibold text-gray-800">Dashboard</h2>      
+        <h2 class="text-3xl font-bold text-gray-600">Dashboard</h2>      
     </header>
 
     <main>
         <!-- Stats Grid -->
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-8">
             <!-- Total Events -->
-            <a href=" {% url "manager_dashboard" %}">
+            <a href="{% url "manager_dashboard" %}">
             <div class="bg-white rounded-xl p-6 shadow-md">
                 <h3 class="text-sm text-gray-500 mb-4 font-medium">TOTAL EVENTS</h3>
                 <div class="flex justify-between items-start">
@@ -64,7 +65,7 @@
             </a>
 
             <!-- Upcoming Events -->
-            <a href=" {% url "manager_dashboard" %}?type=upcoming">
+            <a href="{% url "manager_dashboard" %}?type=upcoming">
             <div class="bg-white rounded-xl p-6 shadow-md">
                 <h3 class="text-sm text-gray-500 mb-4 font-medium">UPCOMING EVENTS</h3>
                 <div class="flex justify-between items-start">
@@ -83,7 +84,7 @@
             </a>
 
             <!-- Past Events -->
-            <a href=" {% url "manager_dashboard" %}?type=past_events">
+            <a href="{% url "manager_dashboard" %}?type=past_events">
             <div class="bg-white rounded-xl p-6 shadow-md">
                 <h3 class="text-sm text-gray-500 mb-4 font-medium">PAST EVENTS</h3>
                 <div class="flex justify-between items-start">
@@ -101,7 +102,7 @@
             </a>
 
             <!-- Total Participants -->
-            <a href=" {% url "manager_dashboard" %}?type=all_participants">
+            <a href="{% url "manager_dashboard" %}?type=all_participants">
             <div class="bg-white rounded-xl p-6 shadow-md">
                 <h3 class="text-sm text-gray-500 mb-4 font-medium">ALL PARTICIPANTS</h3>
                 <div class="flex justify-between items-start">
