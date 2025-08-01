@@ -1,48 +1,52 @@
-{% extends "dashboard/dashboard.html" %}
+{% extends "base.html" %}
 {% block title %}All participant{% endblock title %}
 
-{% block events %}
-<div class="flex justify-between items-center mb-6">
+{% block content %}
+<div class="flex justify-between items-center mt-6 mb-1 mx-14">
   <h1 class="text-3xl font-bold text-gray-600">Participants</h1>
   <a href="{% url 'participant-create' %}" class="bg-green-500 hover:bg-green-600 text-white font-semibold px-4 py-2 rounded">Add Participant</a>
 </div>
+<div class="container mx-auto p-6">
+    <div class="overflow-x-auto shadow-lg">
+          <table class="table-auto w-full bg-white shadow rounded-lg overflow-hidden">
+              <thead class="bg-blue-100 text-gray-700 uppercase text-sm font-semibold">
+                <tr>
+                  <th class="py-3 px-4 text-left">Name</th>
+                  <th class="py-3 px-4 text-left">Email</th>
+                  <th class="py-3 px-4 text-left">Events</th>
+                  <th class="py-3 px-4 text-center">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for participant in participants %}
+                <tr class="border-b hover:bg-rose-50">
+                  <td class="py-3 px-4">{{ participant.first_name }} {{ participant.last_name }}</td>
+                  <td class="py-3 px-4">{{ participant.email }}</td>
+                  <td class="py-3 px-4">
+                    {% for event in participant.events.all %}
+                      <span class="inline-block text-gray-700 rounded-full px-3 py-1 text-xs font-semibold mr-2">{{ event.name }}</span>
+                    {% empty %}
+                      <span class="text-gray-500">No events</span>
+                    {% endfor %}
+                  </td>
+                  <td class="py-3 px-4 text-center space-x-2">
+                    {% comment %} <a href="{% url 'participant-update' participant.id %}" class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 text-sm">Edit</a> {% endcomment %}
 
-<table class="min-w-full bg-white shadow rounded-lg overflow-hidden">
-  <thead class="bg-blue-100 text-gray-700 uppercase text-sm font-semibold">
-    <tr>
-      <th class="py-3 px-4 text-left">Name</th>
-      <th class="py-3 px-4 text-left">Email</th>
-      <th class="py-3 px-4 text-left">Events</th>
-      <th class="py-3 px-4 text-center"></th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for participant in participants %}
-    <tr class="border-b hover:bg-rose-50">
-      <td class="py-3 px-4">{{ participant.name }}</td>
-      <td class="py-3 px-4">{{ participant.email }}</td>
-      <td class="py-3 px-4">
-        {% for event in participant.events.all %}
-          <span class="inline-block text-gray-700 rounded-full px-3 py-1 text-xs font-semibold mr-2">{{ event.name }}</span>
-        {% empty %}
-          <span class="text-gray-500">No events</span>
-        {% endfor %}
-      </td>
-      <td class="py-3 px-4 text-center space-x-2">
-        <a href="{% url 'participant-update' participant.id %}" class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 text-sm">Edit</a>
+                    <form action="{% url 'participant-delete' participant.id %}" method="post" class="inline">
+                      {% csrf_token %}
+                      <button type="submit" onclick="return confirm('Are you sure to delete this participant?');" 
+                      class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 text-sm">
+                      Delete
+                      </button>
+                    </form>
+                  </td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="4" class="text-center py-4 text-gray-500">No participants found.</td></tr>
+                {% endfor %}
+              </tbody>
+          </table>
+    </div>
+</div> 
 
-        <form action="{% url 'participant-delete' participant.id %}" method="post" class="inline">
-          {% csrf_token %}
-          <button type="submit" onclick="return confirm('Are you sure to delete this participant?');" 
-          class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 text-sm">
-          Delete
-          </button>
-        </form>
-      </td>
-    </tr>
-    {% empty %}
-    <tr><td colspan="4" class="text-center py-4 text-gray-500">No participants found.</td></tr>
-    {% endfor %}
-  </tbody>
-</table>
-{% endblock events %}
+{% endblock content %}

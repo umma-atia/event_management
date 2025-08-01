@@ -1,10 +1,16 @@
-{% extends "dashboard/dashboard.html" %}
+{% extends "base.html" %}
 {% block title %}Event's Detail{% endblock title %}
 
-{% block events %}
+{% block content %}
 
-<h2 class="flex justify-center text-xl font-semibold mb-4 text-gray-800">Event Details</h2>
-<div class="bg-white p-4 rounded-xl shadow-md mb-4">
+<h2 class="flex justify-center text-xl font-semibold text-gray-800 mt-8 mb-6">Event Details</h2>
+<div class="bg-white p-4 rounded-xl shadow-md mb-9 mx-9">
+    
+    {% if event.image %}
+        <div class="flex justify-center mb-4">
+            <img src="{{ event.image.url }}" class="w-full max-w-sm rounded-lg shadow-md">
+        </div>
+    {% endif %}
     <div class="text-gray-800">
         <p>Name: {{ event.name }}</p>
         <p>Description: {{ event.description }}</p>
@@ -33,7 +39,4 @@
    </div>
 </div>
 
-
-{% endblock events %}
-
-
+{% endblock content %}

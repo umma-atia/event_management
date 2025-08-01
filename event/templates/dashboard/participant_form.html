@@ -1,8 +1,8 @@
-{% extends "dashboard/dashboard.html" %}
+{% extends "base.html" %}
 {% block title %}Participant Form{% endblock title %}
 
-{% block events %}
-        <h1 class="flex justify-center text-3xl font-bold mb-6 text-gray-600">{{ title }}</h1>
+{% block content %}
+        <h1 class="flex justify-center text-3xl font-bold mt-6 mb-4 text-gray-600">{{ title }}</h1>
 
         <form method="POST" class="bg-white p-6 rounded-xl shadow-md max-w-lg mx-auto space-y-4">
           {% csrf_token %}
@@ -25,4 +25,4 @@
             <a href="{% url 'participant-list' %}" class="ml-4 text-white font-semibold px-6 py-2 rounded bg-red-500 hover:bg-red-600"">Cancel</a>
           </div>
         </form>
-{% endblock events %}
+{% endblock content %}

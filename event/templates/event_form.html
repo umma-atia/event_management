@@ -1,11 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <title>Create Event</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+{% extends "base.html" %}
+
+{% block content %}
+<div class="mx-auto w-1/2 my-9">
     <div class="w-full max-w-2xl bg-white rounded-lg shadow-lg p-8">
         <div>
             {% if messages %}
@@ -16,12 +12,12 @@
                 {% endfor %}
             {% endif %}
         </div>
-        <form method="POST" class="space-y-4">            
+        <form method="POST" enctype='multipart/form-data' class="space-y-4">            
             {% csrf_token %}
             {{ form }}
-            <button type="submit" class="w-full bg-rose-500 hover:bg-rose-600 text-white font-semibold py-3 px-6 rounded-lg transition duration-300">Submit</button>
+            <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg transition duration-300">Submit</button>
         </form>
     </div>
-</body>
-</html>
+</div>   
 
+{% endblock content %}

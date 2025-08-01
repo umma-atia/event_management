@@ -1,7 +1,7 @@
-{% extends "dashboard/dashboard.html" %}
+{% extends "base.html" %}
 {% block title %}Create Category{% endblock title %}
 
-{% block events %}
+{% block content %}
         <h1 class="flex justify-center text-3xl font-bold text-gray-600 p-4">{{ title }}</h1>
 
         <form method="POST" class="bg-white p-6 rounded-xl shadow-md max-w-lg mx-auto space-y-4">
@@ -25,4 +25,4 @@
             <a href="{% url 'category-list' %}" class="ml-4 text-white font-semibold px-6 py-2 rounded bg-red-500 hover:bg-red-600">Cancel</a>
           </div>
         </form>
-{% endblock events %}
+{% endblock content %}

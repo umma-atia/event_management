@@ -1,48 +1,52 @@
-{% extends "dashboard/dashboard.html" %}
+{% extends "base.html" %}
 {% block title %}All Event{% endblock title %}
 
-{% block events %}
-<div class="flex justify-between items-center mb-6">
+{% block content %}
+<div class="flex justify-between items-center mt-6 mb-1 mx-14">
   <h1 class="text-3xl font-bold text-gray-600">Events</h1>
   <a href="{% url 'create-event' %}" class="bg-green-500 hover:bg-green-600 text-white font-semibold px-4 py-2 rounded">Create Event</a>
 </div>
 
-<table class="min-w-full bg-white shadow rounded-lg overflow-hidden">
-  <thead class="bg-blue-100 text-gray-700 uppercase text-sm font-semibold">
-    <tr>
-      <th class="py-3 px-4 text-left">Name</th>
-      <th class="py-3 px-4 text-left">Category</th>
-      <th class="py-3 px-4 text-left">Date</th>
-      <th class="py-3 px-4 text-left">Time</th>
-      <th class="py-3 px-4 text-left">Location</th>
-      <th class="py-3 px-4 text-center">Participants</th>
-      <th class="py-3 px-4 text-center"></th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for event in events %}
-    <tr class="border-b">
-      <td class="py-3 px-4">{{ event.name }}</td>
-      <td class="py-3 px-4">{{ event.category.name }}</td>
-      <td class="py-3 px-4">{{ event.date }}</td>
-      <td class="py-3 px-4">{{ event.time|time:"H:i" }}</td>
-      <td class="py-3 px-4">{{ event.location }}</td>
-      <td class="py-3 px-4 text-center">{{ event.participants.count }}</td>
-      <td class="py-3 px-4 text-center space-x-2">
-        <a href="{% url 'event-update' event.id %}" class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 text-sm">Edit</a>
-  
-        <form action="{% url 'event-delete' event.id %}" method="post" class="inline">
-          {% csrf_token %}
-          <button type="submit" onclick="return confirm('Are you sure to delete?');" 
-          class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 text-sm">
-          Delete
-          </button>
-        </form>
-      </td>
-    </tr>
-    {% empty %}
-    <tr><td colspan="7" class="text-center py-4 text-gray-500">No events found.</td></tr>
-    {% endfor %}
-  </tbody>
-</table>
-{% endblock events %}
+<div class="container mx-auto p-6">
+    <div class="overflow-x-auto shadow-lg">
+        <table class="min-w-full bg-white shadow rounded-lg overflow-hidden">
+          <thead class="bg-blue-100 text-gray-700 uppercase text-sm font-semibold">
+            <tr>
+              <th class="py-3 px-4 text-left">Name</th>
+              <th class="py-3 px-4 text-left">Category</th>
+              <th class="py-3 px-4 text-left">Date</th>
+              <th class="py-3 px-4 text-left">Time</th>
+              <th class="py-3 px-4 text-left">Location</th>
+              <th class="py-3 px-4 text-center">Participants</th>
+              <th class="py-3 px-4 text-center"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for event in events %}
+            <tr class="border-b">
+              <td class="py-3 px-4">{{ event.name }}</td>
+              <td class="py-3 px-4">{{ event.category.name }}</td>
+              <td class="py-3 px-4">{{ event.date }}</td>
+              <td class="py-3 px-4">{{ event.time|time:"H:i" }}</td>
+              <td class="py-3 px-4">{{ event.location }}</td>
+              <td class="py-3 px-4 text-center">{{ event.participants.count }}</td>
+              <td class="py-3 px-4 text-center space-x-2">
+                <a href="{% url 'event-update' event.id %}" class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 text-sm">Edit</a>
+          
+                <form action="{% url 'event-delete' event.id %}" method="post" class="inline">
+                  {% csrf_token %}
+                  <button type="submit" onclick="return confirm('Are you sure to delete?');" 
+                  class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 text-sm">
+                  Delete
+                  </button>
+                </form>
+              </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="7" class="text-center py-4 text-gray-500">No events found.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+    </div>
+</div>      
+{% endblock content %}

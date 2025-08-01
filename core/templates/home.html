@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- Hero Section -->
+<section class="bg-blue-600 text-white py-32 md:py-40">
+    <div class="container mx-auto px-6 text-center">
+      <h1 class="text-4xl md:text-5xl font-bold mb-6">
+        Simplify Your Event Planning with EventEase
+      </h1>
+      <p class="text-xl mb-12">
+        Manage and coordinate your events seamlessly with our intuitive platform
+      </p>
+      <a
+        href="#"
+        class="bg-white text-blue-600 px-8 py-4 rounded-md font-semibold text-lg hover:bg-gray-100 transition duration-300"
+        >Get Started</a
+      >
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="py-24 md:py-32">
+    <div class="container mx-auto px-6">
+      <h2 class="text-3xl font-bold text-center mb-16">
+        Designed for Every Role in Your Event
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+        <!-- Organizer Card -->
+        <div class="bg-white rounded-lg shadow-md p-8">
+          <h3 class="text-2xl font-semibold mb-6">Organizer</h3>
+          <ul class="list-disc list-inside text-gray-600 space-y-3">
+            <li>Plan event schedules and timelines</li>
+            <li>Manage vendor and attendee details</li>
+            <li>Coordinate logistics and resources</li>
+            <li>Monitor event progress in real-time</li>
+          </ul>
+        </div>
+        <!-- Coordinator Card -->
+        <div class="bg-white rounded-lg shadow-md p-8">
+          <h3 class="text-2xl font-semibold mb-6">Coordinator</h3>
+          <ul class="list-disc list-inside text-gray-600 space-y-3">
+            <li>Assign tasks to team members</li>
+            <li>Track vendor and attendee communications</li>
+            <li>Manage event checklists and tasks</li>
+            <li>Ensure smooth execution on the event day</li>
+          </ul>
+        </div>
+        <!-- Participant Card -->
+        <div class="bg-white rounded-lg shadow-md p-8">
+          <h3 class="text-2xl font-semibold mb-6">Participant</h3>
+          <ul class="list-disc list-inside text-gray-600 space-y-3">
+            <li>View event details and schedule</li>
+            <li>Register and RSVP for events</li>
+            <li>Receive updates and notifications</li>
+            <li>Provide feedback after the event</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Call to Action -->
+  <section class="bg-gray-200 py-24 md:py-32">
+    <div class="container mx-auto px-6 text-center">
+      <h2 class="text-3xl font-bold mb-6">
+        Ready to Make Your Events Memorable?
+      </h2>
+      <p class="text-xl mb-12">
+        Join hundreds of organizations transforming their event planning with EventEase
+      </p>
+      <a
+        href="#"
+        class="bg-blue-500 text-white px-8 py-4 rounded-md font-semibold text-lg hover:bg-blue-600 transition duration-300"
+        >Start Free Trial</a
+      >
+    </div>
+  </section>
+{% endblock %}
