@@ -1,17 +1,26 @@
 from django.urls import path
-from event.views import manager_dashboard, create_event, update_event, delete_event, event_detail, buy_ticket, category_list, create_category, participant_list, create_participant, event_list, update_category, delete_category, update_participant, delete_participant, dashboard
+from event.views import manager_dashboard, create_event, update_event, delete_event, event_detail, buy_ticket, category_list, create_category, participant_list, create_participant, event_list, update_category, delete_category, update_participant, delete_participant, dashboard, CreateEvent, UpdateEvent, EventDelete, EventDetail, EventList
 
 urlpatterns = [
     path('manager-dashboard/', manager_dashboard, name = 'manager_dashboard'),
-    path('create-event/', create_event, name="create-event"),
-    path('update-event/<int:id>/', update_event, name='event-update'),
-    path('delete-event/<int:id>/', delete_event, name='event-delete'),
-    path('event-detail/<int:id>/', event_detail, name= 'detail'),
 
-    path('dashboard', dashboard, name='dashboard'),
+    # path('create-event/', create_event, name="create-event"),
+    path('create-event/', CreateEvent.as_view(), name="create-event"),
+    
+    # path('update-event/<int:id>/', update_event, name='event-update'),
+    path('update-event/<int:id>/', UpdateEvent.as_view(), name='event-update'),
 
+    # path('delete-event/<int:id>/', delete_event, name='event-delete'),
+    path('event/delete/<int:id>/', EventDelete.as_view(), name='event-delete'),
+
+    # path('event-detail/<int:id>/', event_detail, name= 'detail'),
+    path('event-detail/<int:id>/', EventDetail.as_view(), name= 'detail'),
+
+    # path('event/', event_list, name='event-list'),
+    path('event-list/', EventList.as_view(), name='event-list'),
+
+    path('dashboard/', dashboard, name='dashboard'),
     path('buy-ticket/<int:id>/', buy_ticket, name ='buy_ticket'),
-    path('event/', event_list, name='event-list'),
     
     path('categories/', category_list, name='category-list'),
     path('categories/create/', create_category, name='category-create'),

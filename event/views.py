@@ -9,6 +9,10 @@ from datetime import date
 import datetime
 from django.db.models import Q, Count, Max, Min, Avg
 from django.contrib import messages
+from django.views import View
+from django.views.generic import UpdateView, DeleteView, DetailView, ListView
+from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 def is_admin(user):
     return user.groups.filter(name='Admin').exists()
@@ -64,6 +68,18 @@ def event_list(request):
     return render(request, "dashboard/event_list.html", {"events": events})
 
 
+class EventList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+    model = Event
+    template_name = "dashboard/event_list.html"
+    context_object_name = "events"
+    permission_required = "event.view_event"
+    login_url = 'no-permission'
+
+    def get_queryset(self):
+        events = Event.objects.select_related("category").prefetch_related("participants").all()
+        return events
+
+
 @login_required
 @permission_required("event.add_event", login_url='no-permission')
 def create_event(request):
@@ -80,6 +96,24 @@ def create_event(request):
     return render(request, 'event_form.html', context)
 
 
+class CreateEvent(LoginRequiredMixin, PermissionRequiredMixin, View):
+    permission_required = 'event.add_event'
+    login_url = 'sign-in'
+    template_name = 'event_form.html'
+
+    def get(self, request, *args, **kwargs):
+        form = EventCreateForm()
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = EventCreateForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Event Created Successfully")
+            return redirect('create-event')
+        return render(request, self.template_name, {'form': form})
+
+
 @login_required
 @permission_required("event.change_event", login_url='no-permission')
 def update_event(request,id):
@@ -87,13 +121,37 @@ def update_event(request,id):
     form = EventCreateForm(instance = event) #for GET 
 
     if request.method == 'POST':
-        form = EventCreateForm(request.POST,instance=event)
+        form = EventCreateForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             messages.success(request, "Event Updated Successfully")
             return redirect('event-update',id)
     context = {'form':form}
     return render(request, 'event_form.html', context)
+
+
+class UpdateEvent(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    model = Event
+    form_class = EventCreateForm
+    template_name = 'event_form.html'
+    context_object_name = 'event'
+    permission_required = 'event.change_event'
+    login_url = 'no-permission'
+    pk_url_kwarg = 'id'
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(**kwargs)
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = EventCreateForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(self.request, "Event Updated Successfully")
+            return redirect('event-update', self.object.id)
+
+        return redirect('event-update', self.object.id)        
+    
     
 
 @login_required
@@ -110,6 +168,25 @@ def delete_event(request,id):
         return redirect('event-list')   
 
 
+class EventDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+    model = Event
+    success_url = reverse_lazy('event-list')
+    permission_required = 'event.delete_event'
+    login_url = 'no-permission'
+    pk_url_kwarg = 'id'
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.delete()
+        messages.success(request, "Event deleted Successfully")
+        return redirect(self.success_url)
+
+
+    def handle_no_permission(self):
+        messages.error(self.request, "Something went wrong")
+        return redirect('event-list')
+
+
 @login_required
 @permission_required("event.view_event", login_url='no-permission')
 def event_detail(request,id):
@@ -119,6 +196,24 @@ def event_detail(request,id):
         'event': event,
         'participants': participants}
     return render(request, 'dashboard/detail.html',context)
+
+
+class EventDetail(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
+    model = Event
+    template_name = 'dashboard/detail.html'
+    context_object_name = 'event'
+    permission_required = 'event.view_event'
+    login_url = 'no-permission'
+
+    def get_object(self):
+        queryset = Event.objects.prefetch_related('participants')
+        event = queryset.get(id=self.kwargs['id'])
+        return event
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['participants'] = self.object.participants.all()
+        return context
 
 
 @login_required

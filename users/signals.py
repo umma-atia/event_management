@@ -5,6 +5,7 @@ from django.contrib.auth.tokens import default_token_generator
 from django.conf import settings
 from django.core.mail import send_mail
 from event.models import Event
+from users.models import UserProfile
 
 
 @receiver(post_save, sender=User)
@@ -46,4 +47,10 @@ def send_rsvp_signal(sender, instance, action, pk_set, **kwargs):
                 'red910630@gmail.com',
                 [user.email],
                 fail_silently=False,
-            )        
+            )     
+
+
+@receiver(post_save, sender=User)
+def create_or_update_user_profile(sender, instance, created, **kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)
